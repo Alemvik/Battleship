@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<LangVersion>10</LangVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Nullable>disable</Nullable> <!-- see https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types -->
+		<ImplicitUsings>false</ImplicitUsings>
+		<!-- <PreserveCompilationContext>false</PreserveCompilationContext> -->
+		<NoWarn>CS0162,CS0164,CS0168,CS8321,CS1998,CS0219,CA1806</NoWarn>
+
+		<!-- <NameSpace>Battleship</NameSpace>
+		<Optimize>true</Optimize>
+  		<RootNamespace>Battleship</RootNamespace> -->
+
+		<AssemblyVersion>1.0.0</AssemblyVersion>
+		<Company>Alemvik inc.</Company>
+		<Authors>Alemvik</Authors>
+		<Product>Battleship</Product>
+		<Description>Learning stuff</Description>
+		<Copyright>Copyright © 2022</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="appsettings*.json" CopyToOutputDirectory="PreserveNewest"/>
+	</ItemGroup>
+</Project>
