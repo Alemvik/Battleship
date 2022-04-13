@@ -1,3 +1,5 @@
+namespace Battleship;
+
 public class Ship
 {
 	public string Name {get;}

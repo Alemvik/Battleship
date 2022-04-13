@@ -1,11 +1,13 @@
+namespace Battleship;
+
 public class Fleet
 {
 	public enum EDamage {Miss, Hit, Sank, Decimated};
 	string Name {get; init;}
 	bool IsHumanControlled {get; init;}
-	List<Ship> ships = new List<Ship>();
-	List<Coordinate> hitLocations {get;} = new();
-	int NbShipLeft {get{return ships.Where(s=>!s.IsSunk()).Count();}}
+	readonly List<Ship> ships = new();
+	List<Coordinate> HitLocations {get;} = new();
+	int NbShipLeft => ships.Where(s=>!s.IsSunk()).Count();
 
 	public Fleet(bool isHumanControlled, string name)
 	{
@@ -30,7 +32,7 @@ public class Fleet
 
 		if (ships is null || shotCoordinate is null) return (EDamage.Miss,"");
 
-		otherFleet?.hitLocations.Add(shotCoordinate);
+		otherFleet?.HitLocations.Add(shotCoordinate);
 
 		//var ship = ships.FirstOrDefault(s => s.Coordinates.Any(c => c.Equals(shotCoordinate)));
 		var ship = ships.FirstOrDefault(s => s.Occupies(shotCoordinate));
@@ -75,7 +77,7 @@ public class Fleet
 				Console.WriteLine(ex.Message);
 			}
 		} else for (int i=0; i<nbShipLeft ;i++) {
-			var coord = Coordinate.RandomCoordinate(hitLocations);
+			var coord = Coordinate.RandomCoordinate(HitLocations);
 			var (dam,shp) = otherFleet.CheckIsHit(coord,this);
 			switch(dam) {
 				case EDamage.Decimated: Console.WriteLine($"{Name} ({coord}) just sank the last ship, the {shp}. {Name} won!"); return true;
@@ -105,7 +107,7 @@ public class Fleet
 			str.Append("   ");
 			str.Append($"{r,2}");
 			for (int c=1; c<=Coordinate.Max.Col ;c++)
-				if (hitLocations.Any(l => l.Col==c && l.Row==r)) str.Append(" *"); else str.Append(" ~");
+				if (HitLocations.Any(l => l.Col==c && l.Row==r)) str.Append(" *"); else str.Append(" ~");
 
 			str.Append('\n');
 		}
@@ -128,7 +130,7 @@ public class Fleet
 			Console.Write($"{r,2}");
 			for (int c=1; c<=Coordinate.Max.Col ;c++) {
 				var (dmg,shp) = CheckIsHit(c,r);
-				bool wasTargetted = otherFleet.hitLocations.Any(l => l.Col==c && l.Row==r);
+				bool wasTargetted = otherFleet.HitLocations.Any(l => l.Col==c && l.Row==r);
 
 				if (dmg == EDamage.Miss) {
 					Console.ForegroundColor = ConsoleColor.Cyan;
@@ -144,7 +146,7 @@ public class Fleet
 			Console.Write("   ");
 			Console.Write($"{r,2}");
 			for (int c=1; c<=Coordinate.Max.Col ;c++)
-				if (hitLocations.Any(l => l.Col==c && l.Row==r)) {
+				if (HitLocations.Any(l => l.Col==c && l.Row==r)) {
 					Console.ForegroundColor = otherFleet.CheckIsHit(c,r).Damage==EDamage.Miss ? ConsoleColor.DarkBlue : ConsoleColor.DarkRed;
 					Console.Write(" *");
 				} else {

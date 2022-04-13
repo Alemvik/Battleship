@@ -1,3 +1,5 @@
+namespace Battleship;
+
 public class Coordinate {
 	public static Coordinate Max {get; set;} = new Coordinate(10,10,true);
 	public int Col {get; set;}

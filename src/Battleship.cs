@@ -3,6 +3,8 @@ global using System.Collections.Generic;
 global using System.Linq;
 global using System.Text;
 
+using Battleship;
+
 Console.Title = "Battleship";
 Console.BackgroundColor = ConsoleColor.Black;
 Console.Clear();
@@ -22,7 +24,7 @@ Console.WriteLine(@"
   \_________________________________________________________________________|");
 
 
-if (args.Length>=1) Coordinate.Max = Coordinate.Parse(args[0]);
+if (args.Length>=1) Coordinate.Max = Coordinate.Parse(args[0]); // eg. E5 for 5 x 5 grid
 
 Fleet fleetA;
 Fleet fleetB;
