@@ -27,7 +27,6 @@ public class Ship
 	{
 		List<Coordinate> coordinates = new();
 		var leftTopShipCoord = new Coordinate(input,excludedCoordinates);
-		//coordinates.Add(leftTopShipCoord);
 		if (char.IsDigit(input[0])) {
 			for (int i=0; i<length ;i++) coordinates.Add(new Coordinate(leftTopShipCoord.Col+i,leftTopShipCoord.Row,excludedCoordinates));
 		} else for (int i=0; i<length ;i++) coordinates.Add(new Coordinate(leftTopShipCoord.Col,leftTopShipCoord.Row+i,excludedCoordinates));

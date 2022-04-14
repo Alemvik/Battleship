@@ -6,29 +6,34 @@ public class Coordinate {
 	public int Row {get; set;}
 	public bool IsHit { get; set; } = false;
 
-	public static Coordinate Parse(string input) // example input: "A10", "10A"
+	public static Coordinate Parse(string input, bool validate=true) // example input: "A10", "10A"
 	{
+		//input = new Regex("[^a-zA-Z0-9]").Replace(input, "");
 		int col, row;
-		if (char.IsDigit(input[0])) {
-			if (char.IsDigit(input[1])) {
-				col = (int)(char.ToUpper(input[2])-'A'+1);
-				row = int.Parse(input[0..2]);
+		try {
+			if (char.IsDigit(input[0])) {
+				if (char.IsDigit(input[1])) {
+					col = (int)(char.ToUpper(input[2])-'A'+1);
+					row = int.Parse(input[0..2]);
+				} else {
+					col = (int)(char.ToUpper(input[1])-'A'+1);
+					row = int.Parse(input[0..1]);
+				}
 			} else {
-				col = (int)(char.ToUpper(input[1])-'A'+1);
-				row = int.Parse(input[0..1]);
+				col = (int)(char.ToUpper(input[0])-'A'+1);
+				row = int.Parse(input[1..]);
 			}
-		} else {
-			col = (int)(char.ToUpper(input[0])-'A'+1);
-			row = int.Parse(input[1..]);
+		} catch (Exception ex) {
+			throw new ArgumentException($"\"{input}\" cannot be parsed. Try something like those valid coordinates: E1, E10, 1E, 10E. ", ex);
 		}
 
-		return new Coordinate(col,row,true);
+		return validate ? new Coordinate(col,row) : new Coordinate(col,row,true);
 	}
 
-	Coordinate(int col, int row, bool noValidation)
+	Coordinate(int col, int row, bool noValidate) // fromn 5 x 5 to 26 x 26
 	{
-		Col = col;
-		Row = row;
+		Col = Math.Min(Math.Max(col,5),26);
+		Row = Math.Min(Math.Max(row,5),26);
 	}
 
 	public Coordinate(string input, IEnumerable<Coordinate> excludedCoordinates=null) : this(Parse(input), excludedCoordinates) {}
@@ -39,16 +44,13 @@ public class Coordinate {
 
 	public Coordinate(int col, int row, IEnumerable<Coordinate> excludedCoordinates=null)
 	{
-		if (col < 0 || col > 26) throw new ArgumentException($"Column {col} is invalid.");
-		if (row < 0 || row > 26) throw new ArgumentException($"Row {row} is invalid.");
-
 		if (col>Max.Col || row>Max.Row) throw new ArgumentException($"Coodinate {(char)('A'+col-1)}{row} is invalide! Max is {(char)('A'+Max.Col-1)}{Max.Row}");
 
 		Col = col;
 		Row = row;
 
 		if (excludedCoordinates is not null && excludedCoordinates.Any(s => s.Col==col && s.Row==row))
-			throw new ArgumentException($"Coodinate {(char)('A'+col-1)}{row} since it's occupied by another of your ship.");
+			throw new ArgumentException($"Coodinate {(char)('A'+col-1)}{row} is excluded.");
 	}
 
 	public static Coordinate RandomCoordinate(IEnumerable<Coordinate> excludedCoordinates=null)

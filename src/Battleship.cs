@@ -2,6 +2,7 @@ global using System;
 global using System.Collections.Generic;
 global using System.Linq;
 global using System.Text;
+global using System.Text.RegularExpressions;
 
 using Battleship;
 
@@ -23,8 +24,12 @@ Console.WriteLine(@"
  |                           Welcome to Battleship                      BB-61/
   \_________________________________________________________________________|");
 
-
-if (args.Length>=1) Coordinate.Max = Coordinate.Parse(args[0]); // eg. E5 for 5 x 5 grid
+if (args.Length>=1) try {
+	Coordinate.Max = Coordinate.Parse(args[0],false); // eg. E5 for 5 x 5 grid
+} catch (Exception ex) {
+	Console.WriteLine(ex.Message + ex.InnerException?.Message);
+	return;
+}
 
 Fleet fleetA;
 Fleet fleetB;
