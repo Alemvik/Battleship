@@ -6,6 +6,13 @@ global using System.Text.RegularExpressions;
 
 using Battleship;
 
+if (args.Length>=1) try {
+	Fleet.MaxCoordinate = args[0]; // eg. E5 for 5 x 5 grid
+} catch (Exception ex) {
+	Console.WriteLine(ex.Message + ex.InnerException?.Message);
+	return;
+}
+
 Console.Title = "Battleship";
 Console.BackgroundColor = ConsoleColor.Black;
 Console.Clear();
@@ -23,13 +30,6 @@ Console.WriteLine(@"
   __..._____--==/___]_|__|_____________________________[___\==--____,------' .7
  |                           Welcome to Battleship                      BB-61/
   \_________________________________________________________________________|");
-
-if (args.Length>=1) try {
-	Fleet.MaxCoordinate = args[0]; // eg. E5 for 5 x 5 grid
-} catch (Exception ex) {
-	Console.WriteLine(ex.Message + ex.InnerException?.Message);
-	return;
-}
 
 Fleet fleetA;
 Fleet fleetB;

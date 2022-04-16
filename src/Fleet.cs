@@ -245,7 +245,7 @@ public class Fleet
 					row = int.Parse(input[1..]);
 				}
 			} catch (Exception ex) {
-				throw new ArgumentException($"\"{input}\" cannot be parsed. Try something like those valid coordinates: E1, E10, 1E, 10E. ", ex);
+				throw new ArgumentException($"\"{input}\" cannot be parsed. Try something like those valid coordinates: E5, E10, 5E, 10E. ", ex);
 			}
 
 			return validate ? new Coordinate(col,row) : new Coordinate(col,row,true);
