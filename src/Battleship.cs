@@ -25,7 +25,7 @@ Console.WriteLine(@"
   \_________________________________________________________________________|");
 
 if (args.Length>=1) try {
-	Coordinate.Max = Coordinate.Parse(args[0],false); // eg. E5 for 5 x 5 grid
+	Fleet.MaxCoordinate = args[0]; // eg. E5 for 5 x 5 grid
 } catch (Exception ex) {
 	Console.WriteLine(ex.Message + ex.InnerException?.Message);
 	return;
