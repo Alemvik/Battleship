@@ -154,8 +154,9 @@ public class Fleet
 			Console.Write($"{r,2}");
 			for (int c=1; c<=Coordinate.Max.Col ;c++)
 				if (HitLocations.Any(l => l.Col==c && l.Row==r)) {
-					Console.ForegroundColor = otherFleet.CheckIsHit(c,r).Damage==EDamage.Miss ? ConsoleColor.DarkBlue : ConsoleColor.DarkRed;
-					Console.Write(" *");
+					var (dmg,shp) = otherFleet.CheckIsHit(c,r);
+					Console.ForegroundColor = dmg==EDamage.Miss ? ConsoleColor.DarkBlue : ConsoleColor.DarkRed;
+					if (dmg==EDamage.Sank || dmg==EDamage.Decimated) Console.Write($" {shp[0]}"); else Console.Write(" *");
 				} else {
 					Console.ForegroundColor = ConsoleColor.Cyan;
 					Console.Write(" ~");
