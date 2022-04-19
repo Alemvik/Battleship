@@ -152,15 +152,14 @@ public class Fleet
 			Console.ForegroundColor = fgColor;
 			Console.Write("   ");
 			Console.Write($"{r,2}");
-			for (int c=1; c<=Coordinate.Max.Col ;c++)
-				if (HitLocations.Any(l => l.Col==c && l.Row==r)) {
-					var (dmg,shp) = otherFleet.CheckIsHit(c,r);
-					Console.ForegroundColor = dmg==EDamage.Miss ? ConsoleColor.DarkBlue : ConsoleColor.DarkRed;
-					if (dmg==EDamage.Sank || dmg==EDamage.Decimated) Console.Write($" {shp[0]}"); else Console.Write(" *");
-				} else {
-					Console.ForegroundColor = ConsoleColor.Cyan;
-					Console.Write(" ~");
-				}
+			for (int c=1; c<=Coordinate.Max.Col ;c++) if (HitLocations.Any(l => l.Col==c && l.Row==r)) {
+				var (dmg,shp) = otherFleet.CheckIsHit(c,r);
+				Console.ForegroundColor = dmg==EDamage.Miss ? ConsoleColor.DarkBlue : ConsoleColor.DarkRed;
+				if (dmg==EDamage.Sank || dmg==EDamage.Decimated) Console.Write($" {shp[0]}"); else Console.Write(" *");
+			} else {
+				Console.ForegroundColor = ConsoleColor.Cyan;
+				Console.Write(" ~");
+			}
 
 			Console.Write('\n');
 		}
